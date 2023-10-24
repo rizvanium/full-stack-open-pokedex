@@ -1,12 +1,8 @@
 name: HealthCheck
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches: [master]
-    types: [opened, synchronize]
+  schedule:
+    - cron: '0 15 * * *'
 
 jobs:
   check_health:
@@ -24,11 +20,11 @@ jobs:
         with:
           webhookUrl: ${{secrets.DISCORD_WEBHOOK}}
           severity: info 
-          text: 'APP: ${{github.event.repository.homepage}} - HEALTHY.'
+          text: 'App: ${{github.event.repository.homepage}} is healthy'
       - name: notify DEAD (Discord)
         if: failure()
         uses: rjstone/discord-webhook-notify@v1
         with:
           webhookUrl: ${{secrets.DISCORD_WEBHOOK}}
           severity: error
-          text: 'APP: ${{github.event.repository.homepage}} - MIGHT BE DEAD.'
+          text: 'App: ${{github.event.repository.homepage}} might be dead'
