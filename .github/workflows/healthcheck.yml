@@ -24,11 +24,11 @@ jobs:
         with:
           webhookUrl: ${{secrets.DISCORD_WEBHOOK}}
           severity: info 
-          text: 'App is healthy.'
+          text: 'APP: ${{github.event.repository.homepage}} - HEALTHY.'
       - name: notify DEAD (Discord)
         if: failure()
         uses: rjstone/discord-webhook-notify@v1
         with:
           webhookUrl: ${{secrets.DISCORD_WEBHOOK}}
           severity: error
-          text: 'App might be dead.'
+          text: 'APP: ${{github.event.repository.homepage}} - MIGHT BE DEAD.'
